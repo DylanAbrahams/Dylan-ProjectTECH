@@ -1,0 +1,19 @@
+{
+  "name": "repos",
+  "version": "1.0.0",
+  "description": "Dylans Project Tech",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "mijn",
+    "project"
+  ],
+  "author": "Dylan Abrahams",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  }
+}
