@@ -8,18 +8,28 @@
 </head>
 <body>
     <%- include('partials/nav')%>
-    <div class="container">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <label for="username">Username:</label>
-            <input type="text" id="username" required>
+    <form action="/" method="post">
+    <label for ="title"> Title of the movie:</label>
+    <input type = "text" name="title" id="title"required>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" required>
+    <label for ="story">Plot of the movie:</label>
+    <textarea name="story" id="story" rows="5" cols="33">
+    </textarea>
 
-            <button type="button" onclick="login()">Login</button>
-        </form>
-    </div>
+    <input type="submit" value ="Add movie">
+    </form>
+    <h3> Movies</h3>
+    <article>
+        <% for (let index=0; index < data.length; index++) { %>
+            <h2><%= data[index].title %></h2>
+            <p><%= data[index].story %></p> <% } %>
+ 
+    </article>
+
+    
+
+    
+
     <script src="script.js"></script>
 </body>
 </html>
