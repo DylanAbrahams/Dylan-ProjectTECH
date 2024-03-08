@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+<h1>Willekeurig Kunstwerk</h1>
+<%
+    // Genereer een willekeurig getal tussen 0 en de lengte van de array 'art'
+    var randomIndex = Math.floor(Math.random() * art.length);
+    var randomArtwork = art[randomIndex];
+%>
+<li>Naam: <%= randomArtwork.kunstwerk %></li>
+<li>Museum: <%= randomArtwork.museum %></li>
+<li>Artiest: <%= randomArtwork.artiest %></li>
+<li>Jaartal: <%= randomArtwork.jaartal %></li>
+
+
+
+</body>
+</html>

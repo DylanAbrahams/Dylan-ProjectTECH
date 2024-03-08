@@ -1,102 +1,92 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
 require('dotenv').config();
+const app = express();
+const port = 3000;
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = process.env.API_KEY
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri);
+// mongoDB database
+const { MongoClient, ServerApiVersion} = require("mongodb");
+
+// Replace the uri string with your connection string.
+const uri = process.env.DB_URI;
+
+// dsdwdwd
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
 async function run() {
   try {
-    const database = client.db('Kunst');
-    const kunst = database.collection('Kunstwerk');
-    // Query for a movie that has the title 'Back to the Future'
-    const query = { title: 'Nachtwacht' };
-    const kunstwerk = await kunst.findOne(query);
-    console.log(kunstwerk);
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
 
+const collectionUsers = client.db(process.env.DB_COLLECTION).collection(process.env.DB_NAME);
+const collectionArt = client.db(process.env.DB_COLLECTION2).collection(process.env.DB_NAME2);
 
-
-async function fetchDataFromMongoDB() {
-  try {
-    await client.connect();
-    const database = client.db('Kunst');
-    const kunst = database.collection('Kunstwerk');
-    const query = {};
-    // Fetch data from MongoDB
-    const data = await kunst.find(query).toArray();
-    return data;
-  } finally {
-    await client.close();
-  }
-}
- 
-// Middleware
+// middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
  
-// API endpoint to fetch data from MongoDB
-app.get('/api/data', async (req, res) => {
-  try {
-    // Fetch data from MongoDB
-    const data = await fetchDataFromMongoDB();
-    // Send the data as a JSON response
-    res.json(data);
-  } catch (error) {
-    // Handle errors
-    console.error('Error fetching data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+app.set('view engine', 'ejs');
+app.use(express.static('static'));
 
-
- 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
- 
-// heeft contextmenu
- 
-const data = [
-  {
-    title: "hello"
-  }
-]
- 
-// this is my middleware to write html....
- 
-app.use(express.static('static'))
-// this is my middleware to write html....
- 
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
- 
-app.set('view engine', 'ejs')
- 
 app.get('/', (req, res) => {
- 
-  res.render('index', {data: data})
-})
- 
-// app.get('/register', (req, res) => {
-//   res.send('Registreer acount!')
-// })
- 
-app.post("/", (req, res) =>{
-  console.log(req.body);
- 
-  data.push({
-    title:req.body.title,
+    res.render('home');
+  })
+
+  app.get('/index', async (req, res) => {
+    const users = await collectionUsers.find().toArray()
+    res.render('index', {users});
+  })
+
+  app.get('/filter', async (req, res) => {
+    const art = await collectionArt.find().toArray()
+    res.render('filter', {art});
+  })
+
+  app.post('/', async (req, res) => {
+    console.log(req.body);
+  
+    const user = {
+      username: req.body.username,
+      password: req.body.password
+    }
+  
+    await collectionUsers.insertOne(user);
+  
+  
+    res.redirect('/index');
   });
- 
- res.redirect('/');
- 
-})
+  
+  app.post('/index', async (req, res) => {
+    console.log(req.body);
+  
+    const user = {
+      username: req.body.username,
+      password: req.body.password
+    }
+  
+    await collectionUsers.insertOne(user);
+  
+    res.redirect('/index');
+  });
+
+
+  
+
+app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+  });  
+  
