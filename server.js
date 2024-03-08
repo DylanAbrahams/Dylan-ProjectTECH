@@ -55,6 +55,7 @@ app.get('/', (req, res) => {
     const art = await collectionArt.find().toArray()
     res.render('filter', {art});
   })
+  
 
   app.post('/', async (req, res) => {
     console.log(req.body);
