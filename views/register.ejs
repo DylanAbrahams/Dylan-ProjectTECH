@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Register Page</title>
+</head>
+
+<body class="loginBody">
+    <div class="viewport">
+    <header>
+        <img src="./svg/logopantheon.svg">
+    </header>
+
+    <h1>
+        Welcome to Pantheon!
+    </h1>
+
+
+    <p>
+        Create a Pantheon account to view your favorite art.
+    </p>
+
+    <form id="firstPartForm" class="form" method="POST" action="/register">
+        <input type="text" placeholder="Username" required name="username"
+            value="<%= typeof username !== 'undefined' ? username : '' %>">
+        <input type="password" placeholder="Password" required name="password">
+        <input type="email" placeholder="example@example.com" required name="email"
+            value="<%= typeof email !== 'undefined' ? email : '' %>">
+        <input type="tel" placeholder="+31 xx-xxxxxxxx" inputmode="numeric" maxlength="15" required name="phonenumber"
+            value="<%= typeof phonenumber !== 'undefined' ? phonenumber : '' %>">
+        <!-- <input type="file" name="artwork"> -->
+
+        <% if (typeof errors !=='undefined' && errors.length> 0) { %>
+            <div style="color: white;">
+                <% errors.forEach(error=> { %>
+                    <p>
+                        <%= error.msg %>
+                    </p>
+                <% }) %>
+            </div>
+        <% } %> 
+
+        <a href="#secondPartForm"> 
+        <button class="indexButton" id="showSecondPartButton" type="button"> 
+           Next Step
+        </button>
+    </a>
+
+        
+            <a class="indexButton" href="/login">login with exisiting account</a>
+        
+    </div>
+
+        
+
+
+        <div id="secondPartForm" style="display: none;">
+            <h2>please choose 2 of your favorite art pieces</h2>
+        
+            <div id="checkboxForm">
+                <% if(allIds.length > 0) { %>
+                    <% allIds.slice(0, 6).forEach(selectedId => { %>
+                        <label class="imageCheckbox">
+                            <input type="checkbox" name="images" value="<%= selectedId %>" onclick="limitCheckboxSelection(2)" id="image<%= selectedId %>">
+                            <img src="/uploads/<%= selectedId %>.jpg">
+                        </label>
+                    <% }) %>
+                <% } %>
+            </div>
+            
+                <input type="submit" value="Create account" class="indexButton">
+            </form>
+        </div>
+        
+    </form>
+    <script src="script.js"></script>
+</body>
+
+</html>

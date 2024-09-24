@@ -1,21 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="style.css" rel="stylesheet">
+    <title>Kunstbeoordeling</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
+
 <body>
+    <header>
+        <img src="./svg/logopantheon.svg">
+    </header>
+    <main>
+        <div class="artwork-container">
+            <% const randomArtworkIndex = Math.floor(Math.random() * artwork.arts.length); %>
+            <!-- Hier de afbeelding van het kunstwerk, indien beschikbaar -->
+            <img src="/uploads/<%= artwork.arts[randomArtworkIndex]._id %>.jpg" alt="<%= artwork.arts[randomArtworkIndex].kunstwerk %>">
+            <div class="artwork-description">
+                <p> <%= artwork.arts[randomArtworkIndex].kunstwerk %></p>
+                <p> <%= artwork.arts[randomArtworkIndex].artiest %> - <%= artwork.arts[randomArtworkIndex].jaartal %></p>
+                <p> <%= artwork.museum %>, <%= artwork.locatie %></p>
 
-        <h1>test</h1>
-        <form method="post" action="/">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
-            <label for="password">Password</label>
-            <input type="password" id="Password" name="password" required>
-            <input type="submit" placeholder="Verzenden"></input>
+            </div>
+        </div>
+        
+
+        <form action="/home" method="post" class="rating-form">
+            <input type="hidden" id="artworkId" name="artworkId" value="<%= artwork.arts[randomArtworkIndex].kunstwerk %>"> <!-- Verborgen veld om het ID van het huidige kunstwerk door te geven -->
+            <button type="submit" data-rating="super-dislike" name="rating" value="-2"> 
+                <img class="rating-smiley" src="svg/smiley-2.svg" alt="Boos">
+            </button>
+            <button type="submit" data-rating="dislike" name="rating" value="-1">
+                <img class="rating-smiley" src="svg/smiley-1.svg" alt="Verdrietig">
+            </button>
+            <button type="submit" data-rating="neutral" name="rating" value="0">
+                <img class="rating-smiley" src="svg/smiley0.svg" alt="Neutraal">
+            </button>
+            <button type="submit" data-rating="like" name="rating" value="1">
+                <img class="rating-smiley" src="svg/smiley1.svg" alt="Blij">
+            </button>
+            <button type="submit" data-rating="super-like" name="rating" value="2">
+                <img class="rating-smiley" src="svg/smiley2.svg" alt="Heel Blij">
+            </button>
         </form>
+    </main>
 
+    <nav>
+        <ul class="navigation">
+            <li class="active"><a href="/home"><img src="./svg/painting-nav-active.svg" /><span></span></a></li>
+            <li><a href="/likes"><img src="./svg/Group 45.svg" /><span></span></a></li>
+            <li><a href="/musea"><img src="./svg/pantheon-nav.svg" /><span></span></a></li>
+            <li><a href="/account"><img src="./svg/account-nav.svg" /><span></span></a></li>
+        </ul>
+    </nav>
+    <script src="script.js"></script>
+    <script src="animations.js"></script>
 </body>
+
 </html>

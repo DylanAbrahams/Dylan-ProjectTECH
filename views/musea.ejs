@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kunstbeoordeling</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="./svg/logopantheon.svg">
+    </header>
+    <div class="musea-box">
+        <form action="#">
+            <div class="musea-input-box">
+                <form action="/likes" method="GET">
+                    <input type="text" name="searchTerm" placeholder="Search...">
+                </form>
+                <div class="musea-selection">
+                    <p>Sort By</p><span></span>
+                  </div>
+                  <div class="musea-categories">
+                    <p class="musea-option" data-sort="rating">Rating</p>
+                    <p class="musea-option" data-sort="name">Name</p>
+                    <p class="musea-option" data-sort="location">Location</p>
+                    <p class="musea-option" data-sort="distance">Distance</p>
+                  </div>
+                  
+            </div>
+        </form>
+    </div>
+
+    <div class="musea-selected-filters"></div>
+
+    
+        <% data.forEach(function(item) { %>
+
+        <div class="musea-like-box">
+            <img src="/uploads/<%= item._id %>.jpg" alt="Afbeelding 1">
+            <div class="musea-text-content">
+                <p><%= item.museum %>, <%= item.locatie %></p>
+                <p><%= item.beschrijving %></p>
+                <p><%= item.afstand_km %> km</p>
+            </div>
+            <div class="musea-smiley-likepage-image">
+                <% 
+                    var smileyImage = '';
+                    var averageRating = item.averageRating;
+                    if (averageRating >= -2 && averageRating < -1.5) {
+                        smileyImage = '-2';
+                    } else if (averageRating >= -1.5 && averageRating < -0.5) {
+                        smileyImage = '-1';
+                    } else if (averageRating >= -0.5 && averageRating < 0.5) {
+                        smileyImage = '0';
+                    } else if (averageRating >= 0.5 && averageRating < 1.5) {
+                        smileyImage = '1';
+                    } else if (averageRating >= 1.5 && averageRating <= 2) {
+                        smileyImage = '2';
+                    }
+                %>
+                <img src="./svg/smiley<%= smileyImage %>.svg" alt="Smiley Score <%= smileyImage %>">
+            </div> 
+        </div>
+        <% }); %>
+        
+<div class="empty-space"> 
+
+    
+<script src="script.js"></script>
+</body>
+
+    <nav>
+        <ul class="navigation">
+            <li><a href="/home"><img src="./svg/painting-nonactive.svg" /><span></span></a></li>
+            <li><a href="/likes"><img src="./svg/thumb-nav-unactive.svg" /><span></span></a></li>
+            <li class="active"><a href="/musea"><img src="./svg/pantheon-active.svg" /><span></span></a></li>
+            <li><a href="/account"><img src="./svg/account-nav.svg" /><span></span></a></li>
+        </ul>
+    </nav>
+
+</html>
